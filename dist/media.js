@@ -4,7 +4,7 @@ const dataURL=blob=>new Promise((resolve,reject)=>{const r=new FileReader();r.on
 async function gif(buffer,maxEdge,onProgress){
  if(typeof Worker==='undefined')return CrosswordMediaCodec.optimizeGif(buffer,maxEdge,onProgress);
  return new Promise((resolve,reject)=>{
-  let worker;try{worker=new Worker(new URL('media-worker.js?v=1.5.0',document.baseURI));}catch{resolve(CrosswordMediaCodec.optimizeGif(buffer,maxEdge,onProgress));return;}
+  let worker;try{worker=new Worker(new URL('media-worker.js?v=1.6.0',document.baseURI));}catch{resolve(CrosswordMediaCodec.optimizeGif(buffer,maxEdge,onProgress));return;}
   const timeout=setTimeout(()=>{worker.terminate();reject(Error('Сжатие заняло слишком много времени. Уменьшите исходный GIF.'));},120000);
   const finish=()=>{clearTimeout(timeout);worker.terminate();};
   worker.onmessage=e=>{if(e.data.progress!==undefined)onProgress(e.data.progress);if(e.data.error){finish();reject(Error(e.data.error));}else if(e.data.result){finish();resolve(e.data.result);}};

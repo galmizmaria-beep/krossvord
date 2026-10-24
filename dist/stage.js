@@ -21,13 +21,15 @@ const css=`
 .cw-stage .cw-game .cw-cat-zone img{width:100%;height:100%;max-height:100%;object-fit:contain;animation:none;filter:drop-shadow(0 8px 8px #20263818)}
 .cw-stage .cw-game .cw-bubble{font-size:17px;line-height:1.45;padding:14px 18px;max-height:110px;overflow:auto;width:100%;flex-shrink:0}
 .cw-stage .cw-game .cw-cat-name{font-size:10px;padding-top:4px}
-.cw-stage .cw-game .cw-clue{grid-column:1;grid-row:3;padding:14px 18px;min-height:68px;max-height:130px;overflow:auto;background:var(--question-bg)!important;color:var(--question-color)!important;border-color:color-mix(in srgb,var(--question-color) 18%,transparent);align-items:center}
+.cw-stage .cw-game .cw-clue{grid-column:1;grid-row:3;padding:14px 18px;min-height:68px;max-height:260px;overflow:auto;background:var(--question-bg)!important;color:var(--question-color)!important;border-color:color-mix(in srgb,var(--question-color) 18%,transparent);align-items:flex-start}
 .cw-stage .cw-game .cw-clue p{font-size:18px;line-height:1.4;color:var(--question-color)!important;margin:5px 0 0}
 .cw-stage .cw-game .cw-clue small{font-size:11px;color:var(--question-color)!important;opacity:.65}
 .cw-stage .cw-game .cw-clue-num{width:35px;height:35px;font-size:18px}
-.cw-stage .cw-game .cw-question-media{grid-column:2;grid-row:4;max-height:130px;overflow:auto}
+.cw-stage .cw-game .cw-clue-body{flex:1;min-width:0}
+.cw-stage .cw-game .cw-question-media{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:10px;margin-top:10px;max-width:100%}
 .cw-stage .cw-game .cw-question-media:empty{display:none}
-.cw-stage .cw-game .cw-question-media img{max-height:120px}
+.cw-stage .cw-game .cw-question-media img{display:block;max-width:100%;max-height:130px;object-fit:contain;margin:0;border-radius:8px}
+.cw-stage .cw-game .cw-question-media audio{display:block;width:280px;max-width:100%;height:36px;margin:0}
 .cw-stage .cw-game .cw-buttons{grid-column:2;grid-row:3;gap:8px;margin:0;align-self:center;flex-wrap:wrap}
 .cw-stage .cw-game .cw-button{font-size:15px!important;padding:13px 14px;border-radius:10px}
 .cw-stage .cw-game .cw-keyboard{grid-column:1;grid-row:4;margin:0;padding:10px;border-radius:12px;background:var(--keyboard-bg);gap:5px}

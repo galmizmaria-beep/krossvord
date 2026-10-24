@@ -1,11 +1,11 @@
 {
   "name": "crossword-forest-workshop",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "description": "Автономная лесная мастерская учебных кроссвордов",
   "scripts": {
     "dev": "python3 -m http.server 4173 --directory dist",
-    "test": "node tests/engine.test.cjs && node tests/ui.test.cjs && node tests/regressions.test.cjs && node tests/embed.test.cjs && node tests/media.test.cjs && node tests/overlays.test.cjs",
+    "test": "node tests/engine.test.cjs && node tests/ui.test.cjs && node tests/regressions.test.cjs && node tests/embed.test.cjs && node tests/media.test.cjs && node tests/overlays.test.cjs && node tests/font-media.test.cjs",
     "build": "node scripts/build-media.cjs && node scripts/minify.cjs"
   },
   "devDependencies": {
