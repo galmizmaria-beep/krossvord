@@ -44,10 +44,28 @@ const css=`
 .cw-stage .cw-game .cw-start img,.cw-stage .cw-game .cw-final img{width:350px;height:330px;object-fit:contain}
 .cw-stage .cw-game .cw-start p,.cw-stage .cw-game .cw-final p{font-size:20px;max-width:650px;line-height:1.6}
 .cw-stage .cw-game .cw-final h2{font-size:36px}
+.cw-stage .cw-game .cw-cat-zone{display:contents!important}
+.cw-stage .cw-game.no-cat .cw-cat-zone{display:none!important}
+.cw-stage .cw-game .cw-cat-image{position:absolute;left:var(--cat-x);top:var(--cat-y);width:var(--cat-width);height:var(--cat-height);max-height:none;min-height:0;z-index:3;display:block;transform:none!important}
+.cw-stage .cw-game .cw-cat-image img{width:100%;height:100%;object-fit:contain;display:block}
+.cw-stage .cw-game .cw-bubble{position:absolute;left:var(--bubble-x);top:var(--bubble-y);width:var(--bubble-width);height:var(--bubble-height);max-height:none;min-height:0;z-index:4;padding:14px 18px;background:var(--bubble-bg)!important;color:var(--bubble-color)!important;font-size:var(--bubble-size)!important;font-style:normal;overflow:auto;box-sizing:border-box}
+.cw-stage .cw-game .cw-bubble:after{display:none}
+.cw-stage .cw-game .cw-start img,.cw-stage .cw-game .cw-final img{position:absolute;left:var(--cat-x);top:var(--cat-y);width:var(--cat-width);height:var(--cat-height);max-width:none;object-fit:contain}
 `;
+function overlayRect(value,kind){
+ const defaults=kind==='cat'?{x:925,y:230,width:285,height:285}:{x:900,y:100,width:330,height:105};
+ const number=(key)=>Number.isFinite(Number(value?.[key]))?Number(value[key]):defaults[key];
+ const width=Math.max(kind==='cat'?48:120,Math.min(1280,number('width'))),height=Math.max(kind==='cat'?48:44,Math.min(720,number('height')));
+ return {x:Math.round(Math.max(0,Math.min(1280-width,number('x')))),y:Math.round(Math.max(0,Math.min(720-height,number('y')))),width:Math.round(width),height:Math.round(height)};
+}
+function projectRect(project,kind){const value=project[kind+'Rect'];if(value)return overlayRect(value,kind);if(kind==='cat'&&project.catScale){const size=285*Math.max(.5,Math.min(2,Number(project.catScale)||1));return overlayRect({x:1067.5-size/2,y:372.5-size/2,width:size,height:size},kind);}return overlayRect(null,kind);}
+function applyOverlayRect(game,kind,rect){for(const key of ['x','y','width','height'])game.style.setProperty('--'+kind+'-'+key,rect[key]+'px');}
 function dimensions(availableWidth,availableHeight){return {width,height,scale:Math.min(Math.max(0,availableWidth)/width,Math.max(0,availableHeight)/height)};}
-function mount(host,game,grid){
+function mount(host,game,grid,project={}){
  host.classList.add('cw-stage');const style=document.createElement('style');style.textContent=css;host.append(style);
+ for(const kind of ['cat','bubble'])applyOverlayRect(game,kind,projectRect(project,kind));
+ const color=(value,fallback)=>/^#[a-f0-9]{6}$/i.test(value||'')?value:fallback;
+ game.style.setProperty('--bubble-bg',project.bubbleTransparent?'transparent':color(project.bubbleBackground,'#fffdf5'));game.style.setProperty('--bubble-color',color(project.bubbleColor,project.typography?.bubble?.color||'#263e35'));game.style.setProperty('--bubble-size',Math.max(10,Math.min(72,Number(project.bubbleFontSize||project.typography?.bubble?.size)||18))+'px');
  const wrap=game.querySelector('.cw-grid-wrap');
  function fit(){
   const w=host.clientWidth||width,h=host.clientHeight||w*9/16;
@@ -60,5 +78,5 @@ function mount(host,game,grid){
  let observer;if(typeof ResizeObserver!=='undefined'){observer=new ResizeObserver(fit);observer.observe(host);observer.observe(wrap);}root.addEventListener('resize',fit);fit();
  return ()=>{observer?.disconnect();root.removeEventListener('resize',fit);};
 }
-root.CrosswordStage={mount,dimensions,css,width,height};
+root.CrosswordStage={mount,dimensions,css,width,height,overlayRect,projectRect,applyOverlayRect};
 })(typeof window!=='undefined'?window:globalThis);

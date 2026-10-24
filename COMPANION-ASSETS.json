@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cat",
+    "name": "Кот",
+    "src": "assets/companions/cat.gif?v=1.5.0",
+    "frames": 102,
+    "bytes": 2470990,
+    "source": "кот.gif",
+    "originalBytes": 7522492
+  },
+  {
+    "id": "bear",
+    "name": "Медведь",
+    "src": "assets/companions/bear.gif?v=1.5.0",
+    "frames": 76,
+    "bytes": 4305193,
+    "source": "медведь.gif",
+    "originalBytes": 9905223
+  },
+  {
+    "id": "boy-dog",
+    "name": "Мальчик с собакой",
+    "src": "assets/companions/boy-dog.gif?v=1.5.0",
+    "frames": 102,
+    "bytes": 1681401,
+    "source": "мкльчик с собачкой.gif",
+    "originalBytes": 3992364
+  },
+  {
+    "id": "duck",
+    "name": "Утка",
+    "src": "assets/companions/duck.gif?v=1.5.0",
+    "frames": 102,
+    "bytes": 1968326,
+    "source": "утка.gif",
+    "originalBytes": 4505901
+  }
+]
