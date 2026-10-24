@@ -3,7 +3,7 @@
 const playerURL='https://galmizmaria-beep.github.io/krossvord/dist/player.html';
 function base64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 async function encode(project){
- const p=JSON.parse(JSON.stringify(project));delete p.fontAssets;delete p.description;
+ const p=JSON.parse(JSON.stringify(project));delete p.fontAssets;delete p.description;delete p.hideStartScreenInEditor;
  const bytes=new TextEncoder().encode(JSON.stringify(p));
  if(typeof CompressionStream==='function'){
   const stream=new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
@@ -24,7 +24,7 @@ async function decode(value){
  return JSON.parse(new TextDecoder().decode(bytes));
 }
 async function create(project){
- const fragment=await encode(project);const url=playerURL+'?v=1.6.0#'+fragment;
+ const fragment=await encode(project);const url=playerURL+'?v=1.7.0#'+fragment;
  if(url.length>60000)throw Error('Медиа делают ссылку слишком длинной. Скачайте HTML, разместите его на своём хостинге и вставьте адрес ниже.');
  return {url,code:iframe(url),bytes:url.length};
 }
