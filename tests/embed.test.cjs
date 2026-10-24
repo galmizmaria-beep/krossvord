@@ -14,7 +14,7 @@ const read=f=>fs.readFileSync(path.join(dir,f),'utf8');
  // OS preference must not silently replace the explicitly enabled GIF.
  g.matchMedia=()=>({matches:true});g.CrosswordGame.mount(g.document.querySelector('#game'),p,{});assert(g.document.querySelector('.cw-cat-zone img').src.startsWith('data:image/gif;base64,'));
  g.document.querySelector('.cw-cat-image').click();assert.equal(g.document.querySelector('.cw-cat-zone').dataset.state,'correct');
- g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{});assert(g.document.querySelector('.cw-cat-zone img').src.startsWith('data:image/png;base64,'));
+ g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{});assert(g.document.querySelector('.cw-cat-zone img').src.startsWith('data:image/gif;base64,'));assert(!g.document.querySelector('.cw-cat-name'));g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{startScreen:true});assert.equal(g.document.querySelector('.cw-start img').src,g.document.querySelector('.cw-cat-zone img').src);
  await assert.rejects(()=>w.CrosswordEmbed.decode('broken'));assert.throws(()=>w.CrosswordEmbed.iframe('javascript:alert(1)'));
  w.CompressionStream=undefined;const plain=await w.CrosswordEmbed.encode(p);assert(plain.startsWith('j.'));assert.equal((await w.CrosswordEmbed.decode(plain)).title,p.title);
  game.window.close();tools.window.close();markup.window.close();console.log('PASS: compressed and plain links, isolated iframe, player boot, localized settings, explicit GIF playback/pause, interactive cat, invalid links.');

@@ -1,0 +1,1 @@
+const path=require('node:path');require('esbuild').buildSync({entryPoints:[path.join(__dirname,'media-codec.cjs')],nodePaths:(process.env.NODE_PATH||"").split(path.delimiter).filter(Boolean),bundle:true,minify:true,format:'iife',globalName:'CrosswordMediaCodec',outfile:path.join(__dirname,'../dist/media-codec.js'),legalComments:'eof'});
