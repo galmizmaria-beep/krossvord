@@ -8,10 +8,6 @@
   if(Crossword.validate(p.words,p.layout,40).length)throw Error('В кроссворде есть ошибки размещения.');
   document.documentElement.lang=p.language||'ru';document.title=p.title||'Crossword';
   CrosswordGame.mount(host,p,{startScreen:true});
-  if(window.self!==window.top){
-   document.body.classList.add('in-frame');
-   const fit=()=>{const scale=Math.min(1,innerHeight/Math.max(1,host.scrollHeight));host.style.transform='scale('+scale+')';};
-   if(typeof ResizeObserver!=='undefined')new ResizeObserver(fit).observe(host);addEventListener('resize',fit);fit();
-  }
+
  }catch(e){host.replaceChildren();const message=document.createElement('p');message.className='player-message';message.setAttribute('role','alert');message.textContent=e.message||'Не удалось открыть игру.';host.append(message);}
 })();

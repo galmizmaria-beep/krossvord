@@ -24,10 +24,10 @@ async function decode(value){
  return JSON.parse(new TextDecoder().decode(bytes));
 }
 async function create(project){
- const fragment=await encode(project);const url=playerURL+'?v=1.2.0#'+fragment;
+ const fragment=await encode(project);const url=playerURL+'?v=1.3.0#'+fragment;
  if(url.length>60000)throw Error('Медиа делают ссылку слишком длинной. Скачайте HTML, разместите его на своём хостинге и вставьте адрес ниже.');
  return {url,code:iframe(url),bytes:url.length};
 }
-function iframe(url){const u=new URL(url);if(u.protocol!=='https:')throw Error('Нужна HTTPS-ссылка на игру.');const safe=u.href.replace(/&/g,'&amp;').replace(/"/g,'&quot;');return '<iframe src="'+safe+'" width="1100" height="760" style="width:100%;height:100%;border:0;display:block" title="Crossword game" allow="fullscreen" allowfullscreen></iframe>';}
+function iframe(url){const u=new URL(url);if(u.protocol!=='https:')throw Error('Нужна HTTPS-ссылка на игру.');const safe=u.href.replace(/&/g,'&amp;').replace(/"/g,'&quot;');return '<iframe src="'+safe+'" width="1280" height="720" style="width:100%;height:100%;aspect-ratio:16/9;border:0;display:block;background:transparent" title="Crossword game" allow="fullscreen" allowfullscreen></iframe>';}
 root.CrosswordEmbed={encode,decode,create,iframe,playerURL};
 })(typeof window!=='undefined'?window:globalThis);

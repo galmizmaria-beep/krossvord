@@ -20,3 +20,7 @@ Use case: illustration-story. Asset type: subtle decorative footer border for a 
 Результат: `dist/assets/black-cat.gif` — 12 кадров, 362×362, 417480 байт. Для уменьшения анимации используется `dist/assets/black-cat-still.png`.
 
 Промпт: «Create a precise animation sprite sheet, exactly 4 columns x 3 rows, of the same cute funny fluffy black 3D cartoon cat inspired by the supplied reference: shaggy charcoal fur, enormous golden yellow eyes, tiny dark golden nose, goofy friendly face, one tiny tooth, plump seated body and front paws. Transparent background. Same scale and camera in all cells. Sequence: neutral, raise right paw, wave outward/inward, half blink, closed eyes, reopen, lower paw, return to neutral. Full ears and paws visible, no text, no clothes, no glasses, no books.»
+# Текущие ассеты 1.3
+
+Текущий кот заменён GIF из примера пользователя. Источник и характеристики: [STUDIO-1.3.md](STUDIO-1.3.md). Ботанический бордюр больше не используется. Ниже сохранена история генерации предыдущих версий.
+
