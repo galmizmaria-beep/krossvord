@@ -1,0 +1,21 @@
+const {JSDOM}=require('jsdom');const fs=require('node:fs');const path=require('node:path');const assert=require('node:assert/strict');const dir=path.resolve(__dirname,'../dist');
+const read=f=>fs.readFileSync(path.join(dir,f),'utf8');
+(async()=>{
+ const tools=new JSDOM('',{runScripts:'outside-only',url:'https://editor.test'});const w=tools.window;
+ Object.assign(w,{TextEncoder,TextDecoder,Blob,Response,CompressionStream,DecompressionStream});w.eval(read('engine.js'));w.eval(read('embed.js'));
+ const words=[{id:'a',answer:'КОТ',clue:'Кто говорит «мяу»?'},{id:'b',answer:'ТОК',clue:'Что течёт по проводам?'}];const layout=w.Crossword.generate(words,10,3);
+ const p={schemaVersion:1,title:'Игра <с котом>',words,layout,language:'fr',size:10,cat:true,catBubble:true,gridFont:'Manrope',accent:'#426347',background:'#fbf3e3',buttonColor:'#123456',letterColor:'#654321',lives:5,timerMode:'none',hintLimit:3};
+ const result=await w.CrosswordEmbed.create(p);assert(result.url.length<3000);assert(result.url.includes('#z.'));const decoded=await w.CrosswordEmbed.decode(result.url.split('#')[1]);assert.deepEqual(JSON.parse(JSON.stringify(decoded)),JSON.parse(JSON.stringify(p)));
+ const markup=new JSDOM(result.code);assert.equal(markup.window.document.body.children.length,1);assert.equal(markup.window.document.body.firstElementChild.tagName,'IFRAME');assert(!markup.window.document.querySelector('style,script'));assert.equal(markup.window.document.querySelector('iframe').src,result.url);
+ const game=new JSDOM(read('player.html'),{url:result.url,runScripts:'outside-only',pretendToBeVisual:true});const g=game.window;Object.assign(g,{TextEncoder,TextDecoder,Blob,Response,CompressionStream,DecompressionStream});
+ for(const file of ['embed.js','i18n.js','fonts.js','engine.js','game.js','player.js'])g.eval(read(file));
+ for(let i=0;i<30&&!g.document.querySelector('.cw-grid');i++)await new Promise(r=>setTimeout(r,10));
+ assert(g.document.querySelector('.cw-grid'),'Shared link must boot the game');assert.equal(g.document.querySelector('.cw-game').lang,'fr');assert.equal(g.document.querySelector('.cw-game').style.getPropertyValue('--button-bg'),'#123456');assert.equal(g.document.querySelector('.cw-start button').textContent,g.CrosswordI18n.get('fr').play+' →');assert.equal(g.document.title,p.title);
+ // OS preference must not silently replace the explicitly enabled GIF.
+ g.matchMedia=()=>({matches:true});g.CrosswordGame.mount(g.document.querySelector('#game'),p,{});assert(g.document.querySelector('.cw-cat-zone img').src.includes('black-cat.gif'));
+ g.document.querySelector('.cw-cat-image').click();assert.equal(g.document.querySelector('.cw-cat-zone').dataset.state,'correct');
+ g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{});assert(g.document.querySelector('.cw-cat-zone img').src.includes('black-cat-still.png'));
+ await assert.rejects(()=>w.CrosswordEmbed.decode('broken'));assert.throws(()=>w.CrosswordEmbed.iframe('javascript:alert(1)'));
+ w.CompressionStream=undefined;const plain=await w.CrosswordEmbed.encode(p);assert(plain.startsWith('j.'));assert.equal((await w.CrosswordEmbed.decode(plain)).title,p.title);
+ game.window.close();tools.window.close();markup.window.close();console.log('PASS: compressed and plain links, isolated iframe, player boot, localized settings, explicit GIF playback/pause, interactive cat, invalid links.');
+})().catch(e=>{console.error(e);process.exitCode=1;});
