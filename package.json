@@ -1,6 +1,6 @@
 {
   "name": "crossword-forest-workshop",
-  "version": "1.11.9",
+  "version": "1.11.10",
   "private": true,
   "description": "Автономная лесная мастерская учебных кроссвордов",
   "scripts": {

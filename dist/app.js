@@ -76,8 +76,8 @@ async function geniallyModal(){
   const share=structuredClone(state);delete share.botanicalAsset;delete share.hideStartScreenInEditor;
   delete share.catStaticAsset;if(CrosswordCompanions.items.some(item=>item.id===share.companionId))delete share.catAsset;
   if(!share.cat){delete share.catAsset;delete share.catStaticAsset;delete share.catStates;}
-  const result=await CrosswordEmbed.prepare(share,{optimizeImage:shrinkEmbedImage,onProgress:message=>{if(output.isConnected)status.textContent=message;}});if(!output.isConnected)return;
-  useEmbed(result);status.textContent='Код готов · '+(new Blob([result.code]).size/1024).toFixed(1)+' КБ'+(result.optimizedImages?' · уменьшены копии картинок для вставки. Исходные изображения сохранены в проекте.':'');
+  const result=await CrosswordEmbed.prepare(share);if(!output.isConnected)return;
+  useEmbed(result);status.textContent='\u041a\u043e\u0434 \u0433\u043e\u0442\u043e\u0432 \u00b7 '+(new Blob([result.code]).size/1024).toFixed(1)+' \u041a\u0411 \u00b7 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0435';
  }catch(e){if(output.isConnected){status.setAttribute('role','alert');status.textContent='Код не создан: '+e.message;if(e.code==='EMBED_TOO_LARGE'){hosting.open=true;output.placeholder='Скачайте HTML ниже, разместите его на хостинге и укажите HTTPS-адрес — здесь появится iframe.';}}}finally{building=false;if(output.isConnected)button.disabled=false;}};
  $('#lightenCode').onclick=prepare;
  $('#downloadGeniallyHTML').onclick=async()=>{const button=$('#downloadGeniallyHTML');button.disabled=true;try{download('crossword-game.html',await buildHTML({compact:true}),'text/html;charset=utf-8');}catch(e){toast(e.message);}finally{button.disabled=false;}};
@@ -86,11 +86,6 @@ async function geniallyModal(){
  $('#openEmbeddedGame').onclick=()=>embed&&window.open(embed.url,'_blank','noopener');
  $('#gameURL').oninput=()=>{try{const url=new URL($('#gameURL').value).href,code=CrosswordEmbed.iframe(url);$('#embedCode').value=code;useEmbed({url,code});status.setAttribute('role','status');status.textContent='Код по адресу готов. Скопируйте iframe выше.';}catch{$('#embedCode').value='';embed=null;output.value='';for(const action of actions)action.disabled=true;status.textContent='Введите полный HTTPS-адрес размещённой HTML-игры.';}};
  $('#copyEmbed').onclick=()=>$('#embedCode').value?copy($('#embedCode').value):toast('Введите HTTPS-ссылку на размещённую игру.');await prepare();
-}
-async function shrinkEmbedImage(source,maxEdge,quality){
- const image=new Image();let timeout;
- try{await Promise.race([new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Не удалось прочитать картинку.'));image.src=source;}),new Promise((resolve,reject)=>{timeout=setTimeout(()=>reject(Error('Подготовка картинки заняла слишком много времени. Повторите попытку или скачайте HTML игры.')),15000);})]);}finally{clearTimeout(timeout);}
- const scale=Math.min(1,maxEdge/Math.max(image.naturalWidth||image.width,image.naturalHeight||image.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round((image.naturalWidth||image.width)*scale));canvas.height=Math.max(1,Math.round((image.naturalHeight||image.height)*scale));const context=canvas.getContext('2d');if(!context)throw Error('Браузер не смог подготовить картинку. Скачайте автономный HTML игры.');context.drawImage(image,0,0,canvas.width,canvas.height);return canvas.toDataURL('image/webp',quality);
 }
 async function copy(t){try{await navigator.clipboard.writeText(t);toast('Код скопирован.');}catch{toast('Буфер недоступен. Выделите и скопируйте текст вручную.');}}
 $('#exportBtn').onclick=exportModal;$('#geniallyBtn').onclick=geniallyModal;$('#undoBtn').onclick=()=>{if(!history.length)return;future.push(JSON.stringify(state));state=JSON.parse(history.pop());changed(true);};$('#redoBtn').onclick=()=>{if(!future.length)return;history.push(JSON.stringify(state));state=JSON.parse(future.pop());changed(true);};document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();(e.shiftKey?$('#redoBtn'):$('#undoBtn')).click();}});
