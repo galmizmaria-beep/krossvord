@@ -25,9 +25,10 @@ const css=`
 .cw-stage .cw-game .cw-clue p{font-size:18px;line-height:1.4;color:var(--question-color)!important;margin:5px 0 0}
 .cw-stage .cw-game .cw-clue small{font-size:11px;color:var(--question-color)!important;opacity:.65}
 .cw-stage .cw-game .cw-clue-num{width:35px;height:35px;font-size:18px}
-.cw-stage .cw-game .cw-clue-body{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px}
+.cw-stage .cw-game .cw-clue-body{flex:1;min-width:0}
 .cw-stage .cw-game .cw-clue-body>.direction{grid-column:1/-1}.cw-stage .cw-game .cw-clue-body>p{grid-column:1}
-.cw-stage .cw-game .cw-question-media{grid-column:2;grid-row:2;display:flex;align-items:flex-start;justify-content:flex-start;gap:6px;margin-top:5px;max-width:100%}
+.cw-stage .cw-game .cw-question-media{display:flex;align-items:center;justify-content:flex-start;gap:6px;margin:0;flex:none}
+.cw-stage .cw-game .cw-clue-actions{display:flex;align-items:center;align-self:flex-start;gap:10px;flex:none}
 .cw-stage .cw-game .cw-question-media:empty{display:none}
 .cw-stage .cw-game .cw-question-media img{display:block;max-width:100%;max-height:130px;object-fit:contain;margin:0;border-radius:8px}
 .cw-stage .cw-game .cw-question-media audio{display:block;width:280px;max-width:100%;height:36px;margin:0}

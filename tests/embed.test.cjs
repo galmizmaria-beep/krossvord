@@ -22,5 +22,18 @@ const read=f=>fs.readFileSync(path.join(dir,f),'utf8');
  const compressed=await w.CrosswordEmbed.prepare(fullQuality);assert(compressed.url.length>60000);assert(compressed.url.includes('#z.'));const restored=await w.CrosswordEmbed.decode(new URL(compressed.url).hash.slice(1));assert.equal(restored.backgroundAsset,photo);assert(restored.words.every(word=>word.image===photo));
  w.CompressionStream=undefined;const uncompressed=await w.CrosswordEmbed.prepare(fullQuality);assert(compressed.bytes<uncompressed.bytes,'Compress code losslessly');assert.equal((await w.CrosswordEmbed.decode(new URL(uncompressed.url).hash.slice(1))).backgroundAsset,photo);
  w.CompressionStream=undefined;const plain=await w.CrosswordEmbed.encode(p);assert(plain.startsWith('j.'));assert.equal((await w.CrosswordEmbed.decode(plain)).title,p.title);
+
+ // Large compressed media must boot inside srcdoc instead of failing the URL limit.
+ w.CompressionStream=CompressionStream;
+ const bigProject={...p,backgroundAsset:'data:image/png;base64,'+require('node:crypto').randomBytes(1700000).toString('base64')};
+ const big=await w.CrosswordEmbed.prepare(bigProject);assert(big.html);assert(big.code.startsWith('<iframe srcdoc='));
+ const outer=new JSDOM(big.code),inner=outer.window.document.querySelector('iframe').srcdoc;
+ const embeddedGame=new JSDOM(inner,{url:'about:srcdoc',runScripts:'outside-only',pretendToBeVisual:true}),eg=embeddedGame.window;
+ Object.assign(eg,{TextEncoder,TextDecoder,Blob,Response,CompressionStream,DecompressionStream});
+ for(const script of eg.document.querySelectorAll('script[src]')){const url=new URL(script.src);assert.equal(url.origin,'https://galmizmaria-beep.github.io');eg.eval(read(url.pathname.split('/').pop()));}
+ for(let i=0;i<100&&!eg.document.querySelector('.cw-grid');i++)await new Promise(r=>setTimeout(r,10));
+ assert(eg.document.querySelector('.cw-grid'),'Large srcdoc iframe must boot');assert.equal(eg.document.title,p.title);
+ assert.equal((await eg.CrosswordEmbed.decode(eg.document.querySelector('#crossword-payload').textContent,true)).backgroundAsset,bigProject.backgroundAsset);
+ embeddedGame.window.close();outer.window.close();
  game.window.close();tools.window.close();markup.window.close();console.log('PASS: compressed and plain links, isolated iframe, player boot, localized settings, explicit GIF playback/pause, interactive cat, invalid links.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
