@@ -1,10 +1,10 @@
 const {JSDOM}=require('jsdom'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const dir=path.resolve(__dirname,'../dist');
 (async()=>{
- const dom=new JSDOM(fs.readFileSync(dir+'/index.html','utf8'),{url:'https://editor.test/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;
+ const dom=new JSDOM(fs.readFileSync(dir+'/index.html','utf8'),{url:'https://editor.test/#fonts',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;
  Object.assign(w,{structuredClone,TextEncoder,TextDecoder});w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(path.join(dir,url.split('?')[0]),'utf8')});
  for(const file of ['i18n.js','fonts.js','engine.js','companions.js','stage.js','keyboard-panel.js','game.js','embed.js','app.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8')+(file==='app.js'?'\nwindow.__state=()=>state;window.__build=buildHTML;':''));
- const $=s=>w.document.querySelector(s);$('[data-section="fonts"]').click();
+ const $=s=>w.document.querySelector(s);assert($('#fontRole'),'Direct link opens typography');assert.equal($('#settingsContent').firstElementChild.className,'typography-target');assert.equal($('#settingsContent').children[1].querySelector('input').dataset.typeProp,'size');$('.settings').scrollTop=500;$('[data-section="fonts"]').click();assert.equal($('.settings').scrollTop,0);
  const roles={grid:'.cw-cell input',numbers:'.cw-cell small',clue:'.cw-clue p',buttons:'.cw-button',bubble:'.cw-bubble',keyboard:'.cw-keyboard-keys button'};
  let size=21;
  for(const [role,selector] of Object.entries(roles)){
