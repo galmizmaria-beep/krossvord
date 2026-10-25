@@ -54,7 +54,8 @@ const css=`
 .cw-stage .cw-game .cw-question-item:hover,.cw-stage .cw-game .cw-question-item[aria-current=true]{box-shadow:inset 0 0 0 1px currentColor}
 .cw-stage .cw-game .cw-question-item.is-solved .cw-question-text{text-decoration:line-through;text-decoration-thickness:2px;opacity:.65}
 .cw-stage .cw-game .cw-questions .cw-questions-close{font-size:28px;line-height:1;padding:6px 10px}
-.cw-stage .cw-game .questions-toggle{flex:none;align-self:center;width:36px;height:36px;padding:0;border:1px solid currentColor;border-radius:50%;font-size:22px;margin:0;color:var(--question-color)}
+.cw-stage .cw-game .questions-toggle{flex:none;align-self:flex-start;width:36px;height:36px;padding:0;border:1px solid currentColor;border-radius:50%;font-size:22px;margin:0;color:var(--question-color)}
+.cw-stage .cw-game .cw-clue .questions-toggle,.cw-stage .cw-game .cw-clue .next-word{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;flex:none;height:36px;min-width:36px;margin:0;line-height:1;padding:0 8px}
 .cw-stage .cw-game .cw-start,.cw-stage .cw-game .cw-final{background:var(--bg);border-radius:inherit;padding:36px}
 .cw-stage .cw-game.transparent-bg .cw-start,.cw-stage .cw-game.transparent-bg .cw-final{background:transparent}
 .cw-stage .cw-game:has(.cw-start)>.cw-stats,.cw-stage .cw-game:has(.cw-start)>.cw-content,.cw-stage .cw-game:has(.cw-start)>.cw-clue,.cw-stage .cw-game:has(.cw-start)>.cw-buttons,.cw-stage .cw-game:has(.cw-start)>.cw-keyboard,.cw-stage .cw-game:has(.cw-start)>.cw-question-media,.cw-stage .cw-game:has(.cw-start)>.cw-questions{visibility:hidden}
