@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom'),fs=require('node:fs'),path=require('node:path'),a
  const dom=new JSDOM(fs.readFileSync(dir+'/index.html','utf8'),{url:'https://editor.test/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;
  Object.assign(w,{structuredClone,TextEncoder,TextDecoder});w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;};
  w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(path.join(dir,url.split('?')[0]),'utf8')});
- for(const file of ['i18n.js','fonts.js','engine.js','companions.js','stage.js','game.js','embed.js','overlay-editor.js','app.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8')+(file==='app.js'?'\nwindow.__state=()=>state;window.__build=buildHTML;window.__genially=geniallyModal;window.__withAssets=withAssets;':''));
+ for(const file of ['i18n.js','fonts.js','engine.js','companions.js','stage.js','keyboard-panel.js','game.js','embed.js','overlay-editor.js','app.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8')+(file==='app.js'?'\nwindow.__state=()=>state;window.__build=buildHTML;window.__genially=geniallyModal;window.__withAssets=withAssets;':''));
  const $=s=>w.document.querySelector(s),state=()=>w.__state();state().cat=false;$('[data-section="project"]').click();
  const change=(key,value)=>{const input=$('[data-key="'+key+'"]');assert(input);input.checked=value;input.dispatchEvent(new w.Event('change'));};
  for(const show of [true,false])for(const hide of [true,false]){
