@@ -57,7 +57,7 @@ const css=`
 .cw-stage .cw-game .questions-toggle{flex:none;align-self:flex-start;width:36px;height:36px;padding:0;border:1px solid currentColor;border-radius:50%;font-size:22px;margin:0;color:var(--question-color)}
 .cw-stage .cw-game .cw-clue .questions-toggle,.cw-stage .cw-game .cw-clue .next-word{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;flex:none;height:36px;min-width:36px;margin:0;line-height:1;padding:0 8px}
 .cw-stage .cw-game .cw-start,.cw-stage .cw-game .cw-final{background:var(--bg);border-radius:inherit;padding:36px}
-.cw-stage .cw-game.transparent-bg .cw-start,.cw-stage .cw-game.transparent-bg .cw-final{background:transparent}
+.cw-stage .cw-game.transparent-bg .cw-start,.cw-stage .cw-game.transparent-bg .cw-final,.cw-stage .cw-game.has-background .cw-start,.cw-stage .cw-game.has-background .cw-final{background:transparent}
 .cw-stage .cw-game:has(.cw-start)>.cw-stats,.cw-stage .cw-game:has(.cw-start)>.cw-content,.cw-stage .cw-game:has(.cw-start)>.cw-clue,.cw-stage .cw-game:has(.cw-start)>.cw-buttons,.cw-stage .cw-game:has(.cw-start)>.cw-keyboard,.cw-stage .cw-game:has(.cw-start)>.cw-question-media,.cw-stage .cw-game:has(.cw-start)>.cw-questions{visibility:hidden}
 .cw-stage .cw-game:has(.cw-final)>.cw-stats,.cw-stage .cw-game:has(.cw-final)>.cw-content,.cw-stage .cw-game:has(.cw-final)>.cw-clue,.cw-stage .cw-game:has(.cw-final)>.cw-buttons,.cw-stage .cw-game:has(.cw-final)>.cw-keyboard,.cw-stage .cw-game:has(.cw-final)>.cw-question-media,.cw-stage .cw-game:has(.cw-final)>.cw-questions{visibility:hidden}
 .cw-stage .cw-game .cw-start img,.cw-stage .cw-game .cw-final img{width:350px;height:330px;object-fit:contain}

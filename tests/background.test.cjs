@@ -1,0 +1,28 @@
+const {JSDOM}=require('jsdom'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const dir=path.resolve(__dirname,'../dist');
+(async()=>{
+ const dom=new JSDOM(fs.readFileSync(dir+'/index.html','utf8'),{url:'https://editor.test/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;
+ Object.assign(w,{structuredClone,TextEncoder,TextDecoder});
+ w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(path.join(dir,url.split('?')[0]),'utf8')});
+ for(const file of ['i18n.js','fonts.js','engine.js','companions.js','stage.js','keyboard-panel.js','game.js','embed.js','overlay-editor.js','app.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8')+(file==='app.js'?'\nwindow.__state=()=>state;window.__upload=uploadMedia;window.__build=buildHTML;window.__validate=validateProject;':''));
+ const $=s=>w.document.querySelector(s),state=w.__state();state.cat=false;
+ const asset='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
+ w.CrosswordMedia={optimize:async()=>({data:asset,size:100,originalBytes:100,optimized:false})};
+ $('[data-section="design"]').click();const input=$('#mediaFile');input.click=()=>{};
+ Object.defineProperty(input,'files',{value:[{size:100,type:'image/png'}]});
+ await w.__upload('backgroundAsset');await input.onchange();
+ const layer=()=>$('.cw-background');assert(layer(),'Uploaded image appears in preview');assert(layer().style.backgroundImage.includes(asset));assert.equal(layer().style.opacity,'1');
+ const slide=(key,value,type='input')=>{const el=$('[data-key="'+key+'"]');el.value=value;el.dispatchEvent(new w.Event(type));};
+ slide('backgroundDarkness',40);assert.equal(state.backgroundDarkness,40);assert(layer().style.backgroundImage.includes('rgba(0, 0, 0, 0.4)'));assert.equal($('[data-background-value="backgroundDarkness"]').textContent,'40%');
+ slide('backgroundDarkness',40,'change');slide('backgroundTransparency',65);assert.equal(layer().style.opacity,'0.35');slide('backgroundTransparency',65,'change');
+ $('#undoBtn').click();assert.equal(w.__state().backgroundTransparency,0);assert.equal(layer().style.opacity,'1');$('#redoBtn').click();assert.equal(layer().style.opacity,'0.35');
+ const toggle=$('[data-key="transparentBackground"]');toggle.checked=true;toggle.dispatchEvent(new w.Event('change'));assert(layer());assert($('.cw-game').classList.contains('transparent-bg'));
+ $('#testMode').click();assert($('.cw-start'));assert(layer());$('.cw-start button').click();assert(layer());
+ const project=w.__validate(JSON.parse(JSON.stringify(w.__state())));assert.equal(project.backgroundDarkness,40);assert.equal(project.backgroundTransparency,65);
+ const decoded=await w.CrosswordEmbed.decode(await w.CrosswordEmbed.encode(project));assert.equal(decoded.backgroundAsset,asset);assert.equal(decoded.backgroundTransparency,65);
+ const html=await w.__build(),exported=new JSDOM(html,{runScripts:'dangerously',url:'https://offline.test/',pretendToBeVisual:true});
+ const exportedLayer=exported.window.document.querySelector('.cw-background');assert(exportedLayer);assert.equal(exportedLayer.style.opacity,'0.35');assert(exportedLayer.style.backgroundImage.includes(asset));assert(exported.window.document.querySelector('.cw-start'));exported.window.close();
+ $('#previewMode').click();$('[data-section="design"]').click();slide('backgroundTransparency',100);assert.equal(layer().style.opacity,'0');slide('backgroundTransparency',0);assert.equal(layer().style.opacity,'1');
+ $('#clearBackground').click();assert(!layer());$('#undoBtn').click();assert(layer());
+ w.close();console.log('PASS: background upload, live darkness/transparency, transparent canvas, title screen, undo/redo, project and standalone/embed exports.');
+})().catch(e=>{console.error(e);process.exitCode=1;});
