@@ -1,11 +1,11 @@
 {
   "name": "crossword-forest-workshop",
-  "version": "1.11.10",
+  "version": "1.12.0",
   "private": true,
   "description": "Автономная лесная мастерская учебных кроссвордов",
   "scripts": {
     "dev": "python3 -m http.server 4173 --directory dist",
-    "test": "node tests/engine.test.cjs && node tests/ui.test.cjs && node tests/regressions.test.cjs && node tests/embed.test.cjs && node tests/media.test.cjs && node tests/overlays.test.cjs && node tests/font-media.test.cjs && node tests/start-screen.test.cjs && node tests/comic-fonts.test.cjs && node tests/keyboard-panel.test.cjs && node tests/companion-gallery.test.cjs && node tests/questions-panel.test.cjs && node tests/background.test.cjs && node tests/typography-size.test.cjs && node tests/genially-export.test.cjs",
+    "test": "node tests/engine.test.cjs && node tests/ui.test.cjs && node tests/regressions.test.cjs && node tests/embed.test.cjs && node tests/media.test.cjs && node tests/overlays.test.cjs && node tests/font-media.test.cjs && node tests/start-screen.test.cjs && node tests/comic-fonts.test.cjs && node tests/keyboard-panel.test.cjs && node tests/companion-gallery.test.cjs && node tests/questions-panel.test.cjs && node tests/background.test.cjs && node tests/typography-size.test.cjs && node tests/genially-export.test.cjs && node tests/editor-content.test.cjs && node tests/media-dialogs-final.test.cjs",
     "build": "node scripts/build-media.cjs && node scripts/minify.cjs"
   },
   "devDependencies": {

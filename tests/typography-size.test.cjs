@@ -5,7 +5,7 @@ const dir=path.resolve(__dirname,'../dist');
  Object.assign(w,{structuredClone,TextEncoder,TextDecoder});w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(path.join(dir,url.split('?')[0]),'utf8')});
  for(const file of ['i18n.js','fonts.js','engine.js','companions.js','stage.js','keyboard-panel.js','game.js','embed.js','app.js'])w.eval(fs.readFileSync(path.join(dir,file),'utf8')+(file==='app.js'?'\nwindow.__state=()=>state;window.__build=buildHTML;':''));
  const $=s=>w.document.querySelector(s);assert($('#fontRole'),'Direct link opens typography');assert.equal($('#settingsContent').firstElementChild.className,'typography-target');assert.equal($('#settingsContent').children[1].querySelector('input').dataset.typeProp,'size');$('.settings').scrollTop=500;$('[data-section="fonts"]').click();assert.equal($('.settings').scrollTop,0);
- const roles={grid:'.cw-cell input',numbers:'.cw-cell small',clue:'.cw-clue p',buttons:'.cw-button',bubble:'.cw-bubble',keyboard:'.cw-keyboard-keys button'};
+ const roles={grid:'.cw-cell input',numbers:'.cw-cell small',clue:'.cw-clue p',buttons:'.keyboard-toggle',bubble:'.cw-bubble',keyboard:'.cw-keyboard-keys button'};
  let size=21;
  for(const [role,selector] of Object.entries(roles)){
   $('#fontRole').value=role;$('#fontRole').dispatchEvent(new w.Event('change'));
@@ -27,7 +27,18 @@ const dir=path.resolve(__dirname,'../dist');
  $('#fontRole').value='stats';$('#fontRole').dispatchEvent(new w.Event('change'));input=$('[data-type-prop="size"]');assert.equal(input.value,'19');input.value='22';input.dispatchEvent(new w.Event('input'));input.dispatchEvent(new w.Event('change'));assert.equal(w.getComputedStyle($('.cw-stats .score')).fontSize,'22px');assert.equal(w.getComputedStyle($('.cw-cell input')).fontSize,'19px');
  $('#testMode').click();assert.equal(w.getComputedStyle($('.cw-start p')).fontSize,'19px');
  const testHost=w.document.createElement('div');w.document.body.append(testHost);let tick;const realInterval=w.setInterval;w.setInterval=fn=>{tick=fn;return 0;};const runtime=w.CrosswordGame.mount(testHost,{...w.__state(),cat:false,timerMode:'countdown',seconds:1},{startScreen:true});testHost.querySelector('.cw-start button').click();tick();assert(testHost.querySelector('.cw-final'));assert.equal(w.getComputedStyle(testHost.querySelector('.cw-final h2')).fontSize,'19px');assert.equal(w.getComputedStyle(testHost.querySelector('.cw-final p')).fontSize,'19px');runtime.destroy();testHost.remove();w.setInterval=realInterval;
+ // The two top buttons have independent sizes and override the common button style.
+ $('#previewMode').click();$('[data-section="fonts"]').click();
+ const setSize=(role,value)=>{$('#fontRole').value=role;$('#fontRole').dispatchEvent(new w.Event('change'));const field=$('[data-type-prop="size"]');field.value=String(value);field.dispatchEvent(new w.Event('input'));field.dispatchEvent(new w.Event('change'));};
+ setSize('hintButton',27);assert.equal(w.getComputedStyle($('.hint-button')).fontSize,'27px');assert.equal(w.getComputedStyle($('.check-button')).fontSize,'19px');
+ setSize('checkButton',18);assert.equal(w.getComputedStyle($('.check-button')).fontSize,'18px');assert.equal(w.getComputedStyle($('.hint-button')).fontSize,'27px');
+ $('#undoBtn').click();assert.equal(w.getComputedStyle($('.check-button')).fontSize,'19px');$('#redoBtn').click();assert.equal(w.getComputedStyle($('.check-button')).fontSize,'18px');
+ setSize('buttons',22);assert.equal(w.getComputedStyle($('.keyboard-toggle')).fontSize,'22px');assert.equal(w.getComputedStyle($('.hint-button')).fontSize,'27px');assert.equal(w.getComputedStyle($('.check-button')).fontSize,'18px');assert.equal(w.getComputedStyle($('.cw-cell input')).fontSize,'19px');
+ $('#fontRole').value='hintButton';$('#fontRole').dispatchEvent(new w.Event('change'));assert.equal($('[data-type-prop="size"]').value,'27');
+ const independentHost=w.document.createElement('div');w.document.body.append(independentHost);const independent=w.CrosswordGame.mount(independentHost,{...w.__state(),typography:{hintButton:{size:27},checkButton:{size:18},buttons:{size:22}}},{});assert.equal(w.getComputedStyle(independentHost.querySelector('.hint-button')).fontSize,'27px');assert.equal(w.getComputedStyle(independentHost.querySelector('.check-button')).fontSize,'18px');independent.destroy();independentHost.remove();
+ const embedded=await w.CrosswordEmbed.decode(await w.CrosswordEmbed.encode(w.__state()));assert.equal(embedded.typography.hintButton.size,27);assert.equal(embedded.typography.checkButton.size,18);
  const project=w.__state();project.cat=false;const html=await w.__build(),offline=new JSDOM(html,{runScripts:'dangerously',url:'https://offline.test/',pretendToBeVisual:true});
  for(const role of ['numbers','clue','buttons','keyboard'])assert.equal(offline.window.getComputedStyle(offline.window.document.querySelector(roles[role])).fontSize,project.typography[role].size+'px','Offline size: '+role);
+ assert.equal(offline.window.getComputedStyle(offline.window.document.querySelector('.hint-button')).fontSize,'27px');assert.equal(offline.window.getComputedStyle(offline.window.document.querySelector('.check-button')).fontSize,'18px');
  offline.window.close();w.close();console.log('PASS: immediate text sizes across grid, numbers, questions, buttons, speech and keyboard; undo/redo, validation, automatic sizing, companion setting and offline export.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -25,8 +25,9 @@ const css=`
 .cw-stage .cw-game .cw-clue p{font-size:18px;line-height:1.4;color:var(--question-color)!important;margin:5px 0 0}
 .cw-stage .cw-game .cw-clue small{font-size:11px;color:var(--question-color)!important;opacity:.65}
 .cw-stage .cw-game .cw-clue-num{width:35px;height:35px;font-size:18px}
-.cw-stage .cw-game .cw-clue-body{flex:1;min-width:0}
-.cw-stage .cw-game .cw-question-media{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:10px;margin-top:10px;max-width:100%}
+.cw-stage .cw-game .cw-clue-body{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px}
+.cw-stage .cw-game .cw-clue-body>.direction{grid-column:1/-1}.cw-stage .cw-game .cw-clue-body>p{grid-column:1}
+.cw-stage .cw-game .cw-question-media{grid-column:2;grid-row:2;display:flex;align-items:flex-start;justify-content:flex-start;gap:6px;margin-top:5px;max-width:100%}
 .cw-stage .cw-game .cw-question-media:empty{display:none}
 .cw-stage .cw-game .cw-question-media img{display:block;max-width:100%;max-height:130px;object-fit:contain;margin:0;border-radius:8px}
 .cw-stage .cw-game .cw-question-media audio{display:block;width:280px;max-width:100%;height:36px;margin:0}
@@ -72,6 +73,15 @@ const css=`
 .cw-stage .cw-game .cw-start img,.cw-stage .cw-game .cw-final img{position:absolute;left:var(--cat-x);top:var(--cat-y);width:var(--cat-width);height:var(--cat-height);max-width:none;object-fit:contain}
 .cw-stage .cw-game{direction:ltr}
 .cw-stage .cw-game[dir=rtl] .cw-clue,.cw-stage .cw-game[dir=rtl] .cw-bubble,.cw-stage .cw-game[dir=rtl] .cw-start,.cw-stage .cw-game[dir=rtl] .cw-final,.cw-stage .cw-game[dir=rtl] .cw-questions,.cw-stage .cw-game[dir=rtl] .cw-keyboard-header{direction:rtl}
+.cw-stage .cw-game .cw-final-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;width:min(780px,100%);max-height:100%;overflow:auto;padding:24px 32px;background:var(--final-bg,#fffdf4);color:var(--final-text,#263e35);border:2px solid color-mix(in srgb,var(--final-text,#263e35) 30%,transparent);border-radius:20px;box-shadow:0 12px 40px #0003}
+.cw-stage .cw-game .cw-final .cw-final-card>img{position:static;flex:none;width:auto;max-width:100%;height:200px;max-height:200px;object-fit:contain}
+.cw-stage .cw-game .cw-final-card h2,.cw-stage .cw-game .cw-final-card p{flex:none;margin:0;overflow-wrap:anywhere}.cw-stage .cw-game .cw-final-card .cw-review{flex:none;width:100%;max-width:100%;margin:0}
+.cw-stage .cw-game .cw-media-trigger,.cw-stage .cw-game .cw-questions .cw-media-trigger{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:36px;width:36px;height:36px;margin:0;padding:6px;border-radius:8px;cursor:pointer}.cw-stage .cw-game .cw-media-trigger svg{flex:none;width:22px;height:22px}
+.cw-stage .cw-game .cw-question-row{display:flex;align-items:flex-start;gap:8px}.cw-stage .cw-game .cw-question-row .cw-question-item{flex:1;min-width:0}.cw-stage .cw-game .cw-question-attachments{display:flex;gap:4px;padding-top:6px}.cw-stage .cw-game .cw-question-attachments:empty{display:none}
+.cw-stage .cw-game .cw-media-overlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:36px;background:#172221a6}
+.cw-stage .cw-game .cw-media-card{display:flex;flex-direction:column;gap:14px;width:850px;max-width:100%;max-height:100%;padding:20px 24px;border:1px solid #aab6b1;border-radius:18px;background:#fffdf4;color:#263e35;box-shadow:0 14px 50px #0004;overflow:auto}
+.cw-stage .cw-game .cw-media-header{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:20px;flex:none}.cw-stage .cw-game .cw-media-close{flex:none;width:40px;height:40px;padding:0;border-radius:8px;font-size:30px;line-height:1}
+.cw-stage .cw-game .cw-media-caption{font-size:18px;line-height:1.4;margin:0;flex:none}.cw-stage .cw-game .cw-media-content{min-height:0;display:flex;justify-content:center;align-items:center}.cw-stage .cw-game .cw-media-content img{display:block;max-width:100%;max-height:480px;object-fit:contain;border-radius:8px}.cw-stage .cw-game .cw-media-content audio{width:100%;height:54px;flex:none}
 `;
 function overlayRect(value,kind){
  const defaults=kind==='cat'?{x:960,y:215,width:240,height:240}:{x:900,y:100,width:330,height:105};
