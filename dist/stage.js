@@ -31,7 +31,7 @@ const css=`
 .cw-stage .cw-game .cw-question-media img{display:block;max-width:100%;max-height:130px;object-fit:contain;margin:0;border-radius:8px}
 .cw-stage .cw-game .cw-question-media audio{display:block;width:280px;max-width:100%;height:36px;margin:0}
 .cw-stage .cw-game .cw-buttons{grid-column:2;grid-row:1;gap:8px;margin:0;align-self:center;flex-wrap:nowrap}
-.cw-stage .cw-game .cw-button{font-size:15px!important;padding:13px 14px;border-radius:10px}
+.cw-stage .cw-game .cw-button{font-size:15px;padding:13px 14px;border-radius:10px}
 .cw-stage .cw-game .cw-keyboard{position:absolute;left:844px;top:464px;width:400px;height:228px;z-index:7;margin:0;padding:12px;border:1px solid color-mix(in srgb,var(--key-text) 20%,transparent);border-radius:16px;background:var(--keyboard-bg);gap:8px;box-shadow:0 12px 36px #1c294534;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;isolation:isolate}
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-header{display:flex;flex:none;align-items:center;justify-content:space-between;width:100%;height:24px;gap:8px}
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-grip{display:flex;align-items:center;gap:8px;min-width:0;flex:1;color:var(--key-text);font-size:13px;line-height:20px;cursor:grab;touch-action:none;user-select:none}
@@ -41,7 +41,7 @@ const css=`
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-keys{display:flex;flex:1;min-height:0;width:100%;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;gap:5px}
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-keys>div{display:flex;flex:none;gap:4px;justify-content:center;width:100%}
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-keys button{background:var(--key-bg)!important;color:var(--key-text)!important;border-color:color-mix(in srgb,var(--key-text) 20%,transparent)!important;max-width:none;min-width:0;flex:1;height:34px;padding:3px;font-size:16px;border-radius:6px}
-.cw-stage .cw-game .cw-keyboard .wide{max-width:170px;font-size:13px}
+.cw-stage .cw-game .cw-keyboard .cw-keyboard-keys button.wide{max-width:none;height:auto;min-height:34px;font-size:13px;line-height:1.2;white-space:normal;overflow-wrap:anywhere;padding:5px 6px;align-self:stretch}.cw-stage .cw-game .cw-keyboard .cw-keyboard-keys>.cw-keyboard-controls{display:grid;grid-template-columns:minmax(36px,.6fr) minmax(0,1fr) minmax(0,1.4fr)}
 .cw-stage .cw-game .questions-target:empty{display:none}
 .cw-stage .cw-game .cw-questions{position:absolute;left:50px;top:90px;width:740px;height:470px;z-index:7;margin:0;padding:18px 22px;border:1px solid var(--question-color);border-radius:16px;background:var(--question-bg);color:var(--question-color);box-shadow:0 16px 50px #0003;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(18px)}
 .cw-stage .cw-game .cw-questions[hidden]{display:none!important}
@@ -67,7 +67,7 @@ const css=`
 .cw-stage .cw-game.no-cat .cw-cat-zone{display:none!important}
 .cw-stage .cw-game .cw-cat-image{position:absolute;left:var(--cat-x);top:var(--cat-y);width:var(--cat-width);height:var(--cat-height);max-height:none;min-height:0;z-index:3;display:block;transform:none!important}
 .cw-stage .cw-game .cw-cat-image img{width:100%;height:100%;object-fit:contain;display:block}
-.cw-stage .cw-game .cw-bubble{position:absolute;left:var(--bubble-x);top:var(--bubble-y);width:var(--bubble-width);height:var(--bubble-height);max-height:none;min-height:0;z-index:4;padding:14px 18px;background:var(--bubble-bg)!important;color:var(--bubble-color)!important;font-size:var(--bubble-size)!important;font-style:normal;overflow:auto;box-sizing:border-box}
+.cw-stage .cw-game .cw-bubble{position:absolute;left:var(--bubble-x);top:var(--bubble-y);width:var(--bubble-width);height:var(--bubble-height);max-height:none;min-height:0;z-index:4;padding:14px 18px;background:var(--bubble-bg)!important;color:var(--bubble-color)!important;font-size:var(--bubble-size);font-style:normal;overflow:auto;box-sizing:border-box}
 .cw-stage .cw-game .cw-bubble:after{display:none}
 .cw-stage .cw-game .cw-start img,.cw-stage .cw-game .cw-final img{position:absolute;left:var(--cat-x);top:var(--cat-y);width:var(--cat-width);height:var(--cat-height);max-width:none;object-fit:contain}
 .cw-stage .cw-game{direction:ltr}
