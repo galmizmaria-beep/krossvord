@@ -18,10 +18,19 @@ const dir=path.resolve(__dirname,'../dist');
  $('#undoBtn').click();assert.equal(w.__state().backgroundTransparency,0);assert.equal(layer().style.opacity,'1');$('#redoBtn').click();assert.equal(layer().style.opacity,'0.35');
  const toggle=$('[data-key="transparentBackground"]');toggle.checked=true;toggle.dispatchEvent(new w.Event('change'));assert(layer());assert($('.cw-game').classList.contains('transparent-bg'));
  $('#testMode').click();assert($('.cw-start'));assert(layer());$('.cw-start button').click();assert(layer());
+ // The statistics stay readable above a photo and each cell state has its own color.
+ $('[data-section="design"]').click();
+ const colors={cellColor:'#f8dfaa',cellActiveColor:'#ffeebb',cellSolvedColor:'#cceeaa',cellWrongColor:'#ffaaaa',statsBackground:'#392611',statsTextColor:'#ffffff',statsLifeColor:'#ffcc88'};
+ const vars={cellColor:'--cell',cellActiveColor:'--cell-active',cellSolvedColor:'--cell-solved',cellWrongColor:'--cell-wrong',statsBackground:'--stats-bg',statsTextColor:'--stats-text',statsLifeColor:'--stats-life'};
+ for(const [key,value] of Object.entries(colors)){const el=$('[data-key="'+key+'"]');el.value=value;el.dispatchEvent(new w.Event('input'));el.dispatchEvent(new w.Event('change'));assert.equal($('.cw-game').style.getPropertyValue(vars[key]),value);}
+ $('#undoBtn').click();assert.equal(w.__state().statsLifeColor,'#b34c35');$('#redoBtn').click();assert.equal(w.__state().statsLifeColor,colors.statsLifeColor);
+ $('[data-section="rules"]').click();const timer=$('[data-key="timerMode"]');timer.value='none';timer.dispatchEvent(new w.Event('change'));assert(!$('.cw-timer'));assert(!$('.time'));assert(!$('.cw-stats').textContent.includes('Без таймера'));assert.equal($('.cw-stats').querySelectorAll('.stat-line').length,2);
+ const host=w.document.createElement('div');w.document.body.append(host);
+ for(const mode of ['countdown','stopwatch']){const runtime=w.CrosswordGame.mount(host,{...w.__state(),timerMode:mode,seconds:90},{startScreen:false});assert.equal(host.querySelector('.time').textContent,mode==='countdown'?'01:30':'00:00');runtime.destroy();}host.remove();
  const project=w.__validate(JSON.parse(JSON.stringify(w.__state())));assert.equal(project.backgroundDarkness,40);assert.equal(project.backgroundTransparency,65);
- const decoded=await w.CrosswordEmbed.decode(await w.CrosswordEmbed.encode(project));assert.equal(decoded.backgroundAsset,asset);assert.equal(decoded.backgroundTransparency,65);
+ const decoded=await w.CrosswordEmbed.decode(await w.CrosswordEmbed.encode(project));assert.equal(decoded.backgroundAsset,asset);assert.equal(decoded.backgroundTransparency,65);for(const [key,value] of Object.entries(colors))assert.equal(decoded[key],value);
  const html=await w.__build(),exported=new JSDOM(html,{runScripts:'dangerously',url:'https://offline.test/',pretendToBeVisual:true});
- const exportedLayer=exported.window.document.querySelector('.cw-background');assert(exportedLayer);assert.equal(exportedLayer.style.opacity,'0.35');assert(exportedLayer.style.backgroundImage.includes(asset));assert(exported.window.document.querySelector('.cw-start'));exported.window.close();
+ const exportedLayer=exported.window.document.querySelector('.cw-background');assert(exportedLayer);assert.equal(exportedLayer.style.opacity,'0.35');assert(exportedLayer.style.backgroundImage.includes(asset));assert(exported.window.document.querySelector('.cw-start'));assert(!exported.window.document.querySelector('.cw-timer'));for(const [key,value] of Object.entries(colors))assert.equal(exported.window.document.querySelector('.cw-game').style.getPropertyValue(vars[key]),value);exported.window.close();
  $('#previewMode').click();$('[data-section="design"]').click();slide('backgroundTransparency',100);assert.equal(layer().style.opacity,'0');slide('backgroundTransparency',0);assert.equal(layer().style.opacity,'1');
  $('#clearBackground').click();assert(!layer());$('#undoBtn').click();assert(layer());
  w.close();console.log('PASS: background upload, live darkness/transparency, transparent canvas, title screen, undo/redo, project and standalone/embed exports.');
