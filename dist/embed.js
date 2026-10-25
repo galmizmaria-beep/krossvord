@@ -24,7 +24,7 @@ async function decode(value){
  return JSON.parse(new TextDecoder().decode(bytes));
 }
 async function create(project){
- const fragment=await encode(project);const url=playerURL+'?v=1.11.6#'+fragment;
+ const fragment=await encode(project);const url=playerURL+'?v=1.11.7#'+fragment;
  if(url.length>60000)throw Error('Медиа делают ссылку слишком длинной. Скачайте HTML, разместите его на своём хостинге и вставьте адрес ниже.');
  return {url,code:iframe(url),bytes:url.length};
 }
