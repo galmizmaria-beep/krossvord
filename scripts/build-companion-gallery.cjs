@@ -14,7 +14,7 @@ for(const [id,name,prefix]of definitions){
  const compressed=fs.readFileSync(target),after=meta(compressed);if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Frame/timing mismatch: '+filename);
  const diff=spawnSync(process.env.GIFDIFF_BIN||'gifdiff',[original,target],{encoding:'utf8'});if(diff.status!==0)throw Error('Visible difference: '+filename+' '+diff.stdout+diff.stderr);
  fs.writeFileSync(path.join(out,id+'.png'),thumbnail(bytes));
- list.push({id,name,src:'assets/companions/'+id+'.gif?v=1.10.0',thumbnail:'assets/companions/'+id+'.png?v=1.10.0',source:filename,originalBytes:bytes.length,bytes:compressed.length,width:after.width,height:after.height,frames:after.frames,durationMs:after.delays.reduce((a,b)=>a+b,0)*10,originalSha256:crypto.createHash('sha256').update(bytes).digest('hex'),sha256:crypto.createHash('sha256').update(compressed).digest('hex'),visuallyIdentical:true});
+ list.push({id,name,src:'assets/companions/'+id+'.gif?v=1.11.0',thumbnail:'assets/companions/'+id+'.png?v=1.11.0',source:filename,originalBytes:bytes.length,bytes:compressed.length,width:after.width,height:after.height,frames:after.frames,durationMs:after.delays.reduce((a,b)=>a+b,0)*10,originalSha256:crypto.createHash('sha256').update(bytes).digest('hex'),sha256:crypto.createHash('sha256').update(compressed).digest('hex'),visuallyIdentical:true});
  console.log(name+': '+bytes.length+' → '+compressed.length+' bytes; '+after.frames+' frames; gifdiff OK');
 }
 fs.writeFileSync(path.join(root,'COMPANION-ASSETS.json'),JSON.stringify(list,null,2)+'\n');

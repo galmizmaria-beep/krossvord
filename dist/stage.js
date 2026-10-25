@@ -43,9 +43,18 @@ const css=`
 .cw-stage .cw-game .cw-keyboard .cw-keyboard-keys button{background:var(--key-bg)!important;color:var(--key-text)!important;border-color:color-mix(in srgb,var(--key-text) 20%,transparent)!important;max-width:none;min-width:0;flex:1;height:34px;padding:3px;font-size:16px;border-radius:6px}
 .cw-stage .cw-game .cw-keyboard .wide{max-width:170px;font-size:13px}
 .cw-stage .cw-game .questions-target:empty{display:none}
-.cw-stage .cw-game .cw-questions{grid-column:1;grid-row:4;max-height:85px;overflow:auto;margin:0;padding:10px 14px;border-radius:10px;background:var(--question-bg);color:var(--question-color);gap:20px}
-.cw-stage .cw-game .cw-questions strong{font-size:14px}
-.cw-stage .cw-game .cw-questions button{background:transparent!important;color:var(--question-color)!important;font-size:13px;padding:5px 0}
+.cw-stage .cw-game .cw-questions{position:absolute;left:50px;top:90px;width:740px;height:470px;z-index:7;margin:0;padding:18px 22px;border:1px solid var(--question-color);border-radius:16px;background:var(--question-bg);color:var(--question-color);box-shadow:0 16px 50px #0003;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(18px)}
+.cw-stage .cw-game .cw-questions[hidden]{display:none!important}
+.cw-stage .cw-game .cw-questions-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none}
+.cw-stage .cw-game .cw-questions-header strong{font-size:22px}
+.cw-stage .cw-game .cw-questions-body{overflow:auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cw-stage .cw-game .cw-questions strong{font-size:16px}
+.cw-stage .cw-game .cw-questions button{background:transparent!important;color:var(--question-color)!important;font:inherit;padding:9px 8px;border:0;text-align:start}
+.cw-stage .cw-game .cw-questions .cw-question-item{display:flex;width:100%;gap:4px;font-size:16px;line-height:1.5;border-radius:8px}
+.cw-stage .cw-game .cw-question-item:hover,.cw-stage .cw-game .cw-question-item[aria-current=true]{box-shadow:inset 0 0 0 1px currentColor}
+.cw-stage .cw-game .cw-question-item.is-solved .cw-question-text{text-decoration:line-through;text-decoration-thickness:2px;opacity:.65}
+.cw-stage .cw-game .cw-questions .cw-questions-close{font-size:28px;line-height:1;padding:6px 10px}
+.cw-stage .cw-game .questions-toggle{flex:none;align-self:center;width:36px;height:36px;padding:0;border:1px solid currentColor;border-radius:50%;font-size:22px;margin:0;color:var(--question-color)}
 .cw-stage .cw-game .cw-start,.cw-stage .cw-game .cw-final{background:var(--bg);border-radius:inherit;padding:36px}
 .cw-stage .cw-game.transparent-bg .cw-start,.cw-stage .cw-game.transparent-bg .cw-final{background:transparent}
 .cw-stage .cw-game:has(.cw-start)>.cw-stats,.cw-stage .cw-game:has(.cw-start)>.cw-content,.cw-stage .cw-game:has(.cw-start)>.cw-clue,.cw-stage .cw-game:has(.cw-start)>.cw-buttons,.cw-stage .cw-game:has(.cw-start)>.cw-keyboard,.cw-stage .cw-game:has(.cw-start)>.cw-question-media,.cw-stage .cw-game:has(.cw-start)>.cw-questions{visibility:hidden}
