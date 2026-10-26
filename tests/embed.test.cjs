@@ -15,7 +15,7 @@ const read=f=>fs.readFileSync(path.join(dir,f),'utf8');
  g.matchMedia=()=>({matches:true});g.CrosswordGame.mount(g.document.querySelector('#game'),p,{});assert(g.document.querySelector('.cw-cat-zone img').src.includes('/assets/companions/cat.gif'));
  g.document.querySelector('.cw-cat-image').click();assert.equal(g.document.querySelector('.cw-cat-zone').dataset.state,'correct');
  g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{});assert(g.document.querySelector('.cw-cat-zone img').src.includes('/assets/companions/cat.gif'));assert(!g.document.querySelector('.cw-cat-name'));g.CrosswordGame.mount(g.document.querySelector('#game'),{...p,reduceMotion:true},{startScreen:true});assert.equal(g.document.querySelector('.cw-start img').src,g.document.querySelector('.cw-cat-zone img').src);
- await assert.rejects(()=>w.CrosswordEmbed.encode({...p,backgroundAsset:'data:image/png;base64,'+'A'.repeat(16000000)}),error=>error.code==='EMBED_TOO_LARGE');
+ await assert.rejects(()=>w.CrosswordEmbed.encode({...p,backgroundAsset:'data:image/png;base64,'+'A'.repeat(w.CrosswordEmbed.limits.maxProjectBytes)}),error=>error.code==='EMBED_TOO_LARGE');
  await assert.rejects(()=>w.CrosswordEmbed.decode('broken'));assert.throws(()=>w.CrosswordEmbed.iframe('javascript:alert(1)'));
  const photo='data:image/png;base64,'+require('node:crypto').randomBytes(180000).toString('base64');
  const fullQuality={...p,backgroundAsset:photo,words:p.words.map(word=>({...word,image:photo}))};

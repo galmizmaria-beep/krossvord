@@ -1,0 +1,96 @@
+{
+  "current": "1.13.0",
+  "versions": {
+    "1.12.1": {
+      "commit": "415d1463c03bdebf62b512ff17444b16d3dabcc1",
+      "tree": "4306160a4c3712d3aed6d88989756ddf642ff755"
+    },
+    "1.12.0": {
+      "commit": "ea847665c091a60b3994e5464ad23df8ee884b17",
+      "tree": "8f1eb3f0ab48c3986ad1b4d42c9ac0f5666b3b71"
+    },
+    "1.11.10": {
+      "commit": "fc9b38bca0088bf20c1e8c2980394843d5347be4",
+      "tree": "3570a826981054323278d7b6c5605fa0b33d6e1f"
+    },
+    "1.11.9": {
+      "commit": "373c0024154de0577a5d2d8c1e2262063e88c0c0",
+      "tree": "ba0320df0a21117683597baa84635a38755b9a4a"
+    },
+    "1.11.8": {
+      "commit": "8aec994d1ac90f54c42ecd2ccb64163d65e310f1",
+      "tree": "a79d27cb1f3cbcf272a4ee0149edad7b21726a82"
+    },
+    "1.11.7": {
+      "commit": "2f7150a75a7a9c69d591577f5aaecc8034b20d93",
+      "tree": "e972b1007c4e0480e93cd83edf5b002fe750ede6"
+    },
+    "1.11.6": {
+      "commit": "bca4c4c0eabaf156f349f0bbeda9dbff870f5701",
+      "tree": "54d78d25f2359bc3af5bd6794e18ee0b0193ea25"
+    },
+    "1.11.5": {
+      "commit": "f9c6db2ff08c0ff0847ee0716f339430cc6139bb",
+      "tree": "d825cecdd718cf5492f7f7ec627408e8d8367614"
+    },
+    "1.11.4": {
+      "commit": "dfc5c90c710fa14fdedd269f74b6b14c6ef29891",
+      "tree": "7b61a69c6df47f5b5bdbac6389736127f59aec21"
+    },
+    "1.11.3": {
+      "commit": "d10c4394e73d6b92dd1bd552effc0801433d8353",
+      "tree": "243846566bdec0225ad64e32c84e18d5280ff126"
+    },
+    "1.11.2": {
+      "commit": "655750bc712d455a430648f918c9d8007bb4d0e3",
+      "tree": "6b6237ba891a3fb6194187a738c95ec9ffaf75c3"
+    },
+    "1.11.1": {
+      "commit": "269339bf2b13dc58e18d18b15c681c349dfa03a8",
+      "tree": "978a9fd938c248667dcce1fce60d33bb9510ace5"
+    },
+    "1.11.0": {
+      "commit": "b7439cbed9e3cdab0f75542dac644c2d4c68ec04",
+      "tree": "1d229cbc3f8b41ce83eb49c4374b9b9c0c002f6f"
+    },
+    "1.10.0": {
+      "commit": "5bbcbd7a90d2585646b870b5542ebf553a1b5e4b",
+      "tree": "b0271edf122eb51377ea8e0ce7d4b858680daca6"
+    },
+    "1.9.0": {
+      "commit": "8ba45208cd9a01eeb8d3adccf4878e934e4b58ac",
+      "tree": "763593ff9c075d4a7167432ee288283084c144d9"
+    },
+    "1.8.0": {
+      "commit": "8b126431657cd75fb5a7585ae3b2cedf8bf11916",
+      "tree": "ae6f86518b4c5a555b73d1a52aa4017656e8955d"
+    },
+    "1.7.0": {
+      "commit": "2960a4f9b00502ebecf696c46d94726d5c75f425",
+      "tree": "a4022318a844da59818441ecf2a4d66f9f51c317"
+    },
+    "1.6.0": {
+      "commit": "d4b847c42dfe6c3e86588a7258d6cdfc998f6a4d",
+      "tree": "b8ffc96a4e562252b3357fca86354d1c4c752dd0"
+    },
+    "1.5.0": {
+      "commit": "6a6dbfbbe83421d3dc8ce9b9f7fd39bbcd2edd64",
+      "tree": "d76b4e6560482dd087e051c252394642ed3ab52b"
+    },
+    "1.4.0": {
+      "commit": "ce6eefee4ceec40f59b32ffe086ce8c6ea0bca1d",
+      "tree": "58470a468f0e3564dd4fb1ad2d7d4c3c46b9519a"
+    },
+    "1.3.0": {
+      "commit": "cdbd9c1fef90ba79d8ad2d0ab993e0de9258042e",
+      "tree": "1eae07ca6f9fe54feea65d075e9c324fe5726a6e"
+    },
+    "1.2.0": {
+      "commit": "4d142bd72195034bb731498c7d991aeef4125994",
+      "tree": "5ad97df5aa0acf7a6c36768be17165797641229c"
+    },
+    "1.13.0": {
+      "path": "releases/1.13.0/player.html"
+    }
+  }
+}
