@@ -1,5 +1,5 @@
 {
-  "current": "1.13.0",
+  "current": "1.14.0",
   "versions": {
     "1.12.1": {
       "commit": "415d1463c03bdebf62b512ff17444b16d3dabcc1",
@@ -91,6 +91,9 @@
     },
     "1.13.0": {
       "path": "releases/1.13.0/player.html"
+    },
+    "1.14.0": {
+      "path": "releases/1.14.0/player.html"
     }
   }
 }

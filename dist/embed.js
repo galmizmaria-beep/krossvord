@@ -3,7 +3,7 @@
 // Old srcdoc exports already contain relative script URLs. Keep their original runtime.
 if(typeof document!=='undefined'&&document.currentScript){const source=new URL(document.currentScript.src,document.baseURI);if(source.pathname.endsWith('/dist/embed.js')&&source.searchParams.get('v')==='1.12.1'&&document.getElementById('crossword-payload')){const base=document.querySelector('base');if(base)base.href=new URL('releases/1.12.1/',source).href;}}
 
-const version='1.13.0',maxProjectBytes=64*1024*1024,maxLinkChars=2000000,maxEmbeddedChars=90000000;
+const version='1.14.0',maxProjectBytes=64*1024*1024,maxLinkChars=2000000,maxEmbeddedChars=90000000;
 const playerURL='https://galmizmaria-beep.github.io/krossvord/dist/releases/'+version+'/player.html';
 function base64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 async function encode(project){
@@ -33,8 +33,8 @@ async function create(project){
  const fragment=await encode(project);const url=playerURL+'#'+fragment;
  if(url.length>maxLinkChars){
   const runtimeBase=playerURL.slice(0,playerURL.lastIndexOf('/')+1),base=new URL('../../',runtimeBase).href;
-  const scripts=['embed.js','i18n.js','font-files.js','comic-fonts.js','fonts.min.js','engine.min.js','companions.js','stage.min.js','keyboard-panel.min.js','game.min.js','player.js'];
-  const html='<!doctype html><html><head><meta charset="utf-8"><base href="'+base+'"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}#game{width:100vw;height:100vh;position:relative}</style></head><body><main id="game"></main><script type="application/json" id="crossword-payload">'+fragment+'</script>'+scripts.map(file=>'<script src="'+runtimeBase+file+'?v=1.13.0"></script>').join('')+'</body></html>';
+  const scripts=['embed.js','i18n.js','font-files.js','comic-fonts.js','fonts.min.js','engine.min.js','companions.js','stage.min.js','keyboard-panel.min.js','math.js','game.min.js','player.js'];
+  const html='<!doctype html><html><head><meta charset="utf-8"><base href="'+base+'"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}#game{width:100vw;height:100vh;position:relative}</style></head><body><main id="game"></main><script type="application/json" id="crossword-payload">'+fragment+'</script>'+scripts.map(file=>'<script src="'+runtimeBase+file+'?v=1.14.0"></script>').join('')+'</body></html>';
   const escaped=html.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const code='<iframe srcdoc="'+escaped+'" width="1280" height="720" style="width:100%;height:100%;aspect-ratio:16/9;border:0;display:block;background:transparent" title="Crossword game" allow="fullscreen" allowfullscreen></iframe>';
   return {code,html,bytes:code.length};
